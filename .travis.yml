@@ -2,3 +2,7 @@ language: go
 
 go:
   - 1.9.4
+  
+before_script:
+  # insert build label with utc timestamp
+  - STAMP=`date --iso-8601=seconds -u`; LABEL="${TRAVIS_BUILD_ID}@travis-ci@${STAMP}"; sed -i -e "s/BUILDID = \`[^\`]*\`/BUILDID = \`${LABEL}\`/" main.go

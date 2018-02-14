@@ -1,10 +1,11 @@
-package main
+package haddock
 
-import "fmt"
 import (
+	"fmt"
 	"log"
 	"flag"
 	"github.com/bueli/vertec"
+	"os"
 	"os/user"
 )
 
@@ -15,20 +16,28 @@ const SOLLZEITQUERY = `<Query>
 </Selection>
 </Query>`
 
+const BUILDID = `manual build`
+
 func main() {
-
-    fmt.Println("Hunderttausend heulende und jaulende Höllenhunde!")
-	fmt.Println("Version:", vertec.Version())
-
-	var settings vertec.Settings
-
+ 
 	user, _ := user.Current()
 	username := flag.String("u", user.Username, "username, defaults to USERNAME from OS environment")
 	password := flag.String("p", "", "password")
 	url := flag.String("h", "http://localhost:8090/xml", "Vertec server URL")
+	showVersion := flag.Bool("version", true, "print version")
 
 	flag.Parse()
-
+	
+	if *showVersion {
+		fmt.Printf("haddock version: 0.0.1, vertec access lib: %s, build: %s\n", vertec.Version(), BUILDID)
+		os.Exit(0)
+	}
+	
+    fmt.Println("Hunderttausend heulende und jaulende Höllenhunde!")
+	fmt.Println("Version:", vertec.Version())
+	
+	var settings vertec.Settings
+	
 	settings.Username = *username
 	settings.Password = *password
 	settings.URL = *url
