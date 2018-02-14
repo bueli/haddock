@@ -1,4 +1,4 @@
-package haddock
+package main
 
 import (
 	"testing"
