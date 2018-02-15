@@ -42,8 +42,15 @@ func main() {
 	settings.URL = *url
 	log.Printf("accessing %s as user %s", settings.URL, settings.Username)
 
-	log.Printf("query\n%s", SOLLZEITQUERY)
-	
+	err := vertec.Login(settings, *username, *password)
+	if err != nil {
+		log.Fatal("cannot authenticate", err)
+	}
+
+	log.Printf("token is %s\n", settings.Token)
+
+	log.Printf("query\n%s\n", SOLLZEITQUERY)
+
 	response, err := vertec.Query(SOLLZEITQUERY, settings)
 	if err != nil {
 		log.Fatal("no respnse on query", err)
