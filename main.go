@@ -16,6 +16,8 @@ const SOLLZEITQUERY = `<Query>
   </Selection>
 </Query>`
 
+const LOGINUSERQUERY = `<Query><Section><ocl>Timsession.allInstances->first.login</ocl></Selection></Query>`
+
 const BUILDID = `manual build`
 
 func main() {
@@ -52,9 +54,9 @@ func main() {
 		}
 	}
 
-	logger.Info("query", "query", SOLLZEITQUERY)
+	logger.Info("query", "query", LOGINUSERQUERY)
 
-	response, err := vertec.Query(SOLLZEITQUERY, settings)
+	response, err := vertec.Query(LOGINUSERQUERY, settings)
 	if err != nil {
 		logger.Error("no response on query", "error", err, "query", SOLLZEITQUERY)
 	} else {
