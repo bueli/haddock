@@ -16,7 +16,7 @@ const SOLLZEITQUERY = `<Query>
   </Selection>
 </Query>`
 
-const LOGINUSERQUERY = `<Query><Section><ocl>Timsession.allInstances->first.login</ocl></Selection></Query>`
+const LOGINUSERQUERY = `<Query><Selection><ocl>Timsession.allInstances->first.login</ocl></Selection></Query>`
 
 const BUILDID = `manual build`
 
@@ -44,14 +44,14 @@ func main() {
 	var settings vertec.Settings
 	settings.URL = *url
 
+	settings.Username = *username
+	settings.Password = *password
+	
 	if *useToken {
 		err := vertec.Login(settings, *username, *password)
 		if err != nil {
-			logger.Warn("cannot authenticate with token access method, falling", err)
-		} else {
-			settings.Username = *username
-			settings.Password = *password
-		}
+			logger.Warn("cannot authenticate with token access method", "error", err)
+		} 
 	}
 
 	logger.Info("query", "query", LOGINUSERQUERY)
