@@ -27,14 +27,14 @@ func main() {
 	user, _ := user.Current()
 	username := flag.String("u", user.Username, "username, defaults to USERNAME from OS environment")
 	password := flag.String("p", "", "password")
-	url := flag.String("h", "http://localhost:8090/xml", "Vertec server URL")
+	url := flag.String("h", "http://localhost:8081/xml", "VertecCloud server URL")
 	showVersion := flag.Bool("version", false, "print version")
-	useToken := flag.Bool("token", false, "use modern token login provided by Vertec Cloud Server")
+	useToken := flag.Bool("token", true, "use modern token login provided by Vertec Cloud Server")
 
 	flag.Parse()
 
 	if *showVersion {
-		fmt.Printf("haddock version: 0.0.1, vertec access lib: %s, build: %s\n", vertec.Version(), BUILDID)
+		fmt.Printf("haddock version: 0.0.2, vertec access lib: %s, build: %s\n", vertec.Version(), BUILDID)
 		os.Exit(0)
 	}
 
@@ -48,10 +48,12 @@ func main() {
 	settings.Password = *password
 	
 	if *useToken {
-		err := vertec.Login(settings, *username, *password)
+		err := vertec.Login(&settings, *username, *password)
 		if err != nil {
 			logger.Warn("cannot authenticate with token access method", "error", err)
-		} 
+		} else {
+			logger.Debug("using token authentication")
+		}		
 	}
 
 	logger.Info("query", "query", LOGINUSERQUERY)
